@@ -21,6 +21,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: "password is required",
   },
+  mobile: {
+    type: String,
+    trim: true,
+    required: "Mobile number is required",
+  },
   userCreated: {
     type: Date,
     default: new Date(),

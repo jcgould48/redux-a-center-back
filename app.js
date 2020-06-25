@@ -23,12 +23,21 @@ mongoose.connect(process.env.MONGO_DB, {
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users/users');
+const usersRouter = require('./routes/items/items');
 
 const app = express();
 
+passport.use("jwt-user", userJWTLoginStrategy);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    credentials: true,
+  })
+);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -37,7 +46,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/items', itemsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

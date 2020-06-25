@@ -1,34 +1,39 @@
-const mongoose = require("mongoose");
-const moment = require("moment");
+const Friend = require("../model/Friend");
+const dbErrorHelper = require("../../lib/dbErrorHelpers/dbErrorHelper");
+const User = require("../../users/model/User");
 
-const ItemSchema = new mongoose.Schema({
-  itemName: {
-    type: String,
-    required: "Item name is required",
-  },
-  rentAmount: {
-    type: Number,
-    required: "Rent amount is required",
-  },
-  description: {
-    type: String,
-    required: "Description is required",
-  },
-  dateInput: {
-    type: Date,
-  },
-  availability: {
-    type: Boolean,
-    required: "Availability is required",
-  },
-  createdBy: { type: mongoose.Schema.ObjectId, ref: "User" },
-  created: {
-    type: String,
-    default: () => {
-      const now = moment();
-      return now.format("dddd, MMMM Do YYYY, h:mm:ss a");
-    },
-  },
-});
 
-module.exports = mongoose.model("Item", ItemSchema);
+module.exports = {
+    createItem: async (req, res) => {
+        try {
+          const newItem = new Item({
+            itemName: req.body.itemName,
+            rentAmount: req.body.rentAmount,
+            description: req.body.description,
+            dateInput: req.body.dateInput,
+            availability: req.body.availability,
+           
+          });
+          const savedItem = await newItem.save();
+          const foundUser = await User.findById({ _id: req.user._id });
+          foundUser.items.push(savedItem._id);
+          res.json(savedItem);
+        } catch (e) {
+          res.status(500).json({
+            message: dbErrorHelper(e),
+          });
+        }
+      },
+
+getAllItems: async (req, res) => {
+    try {
+      let allItems = await Item.find({ item: req.user._id });
+      res.json(allItems);
+    } catch (e) {
+      res.status(500).json({
+        message: dbErrorHelper(e),
+      });
+    }
+  },
+
+}
