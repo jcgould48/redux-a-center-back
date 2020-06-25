@@ -1,13 +1,30 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const cors =  require('cors')
+const mongoose = require("mongoose")
+const passport = require("passport")
+// const userJWTLoginStrategy = require("./routes/lib/passport/user-passport");
+require('dotenv').config()
 
-var app = express();
+mongoose.connect(process.env.MONGO_DB, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+})
+.then(()=>{
+  console.log("MONGO DB CONNECTED")
+})
+.catch((e)=> console.log(w))
+
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users/users');
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
