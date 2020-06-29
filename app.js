@@ -23,7 +23,7 @@ mongoose.connect(process.env.MONGO_DB, {
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users/users');
-const usersRouter = require('./routes/items/items');
+const itemsRouter = require('./routes/items/items');
 
 const app = express();
 
