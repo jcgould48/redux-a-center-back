@@ -1,4 +1,4 @@
-const Friend = require("../model/Friend");
+
 const dbErrorHelper = require("../../lib/dbErrorHelpers/dbErrorHelper");
 const User = require("../../users/model/User");
 
