@@ -41,10 +41,13 @@ module.exports= {
           if (comparedPassword === 409) {
             throw Error("Check your email and password.");
           }
-          let jwtToken = await jwtHelper.createJwtToken(foundUser);
-          res.json({
-            jwtToken: jwtToken,
-          });
+          let jwtTokenObj = await jwtHelper.createJwtToken(foundUser);
+
+      res.json({
+        message: "success",
+        jwtToken: jwtTokenObj.jwtToken,
+        jwtRefreshToken: jwtTokenObj.jwtRefreshToken,
+      });
         } catch (e) {
           res.status(500).json({
             message: dbErrorHelper(e),

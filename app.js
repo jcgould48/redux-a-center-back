@@ -4,11 +4,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
 const cors =  require('cors')
 const mongoose = require("mongoose")
 const passport = require("passport")
-// const userJWTLoginStrategy = require("./routes/lib/passport/user-passport");
+const userJWTLoginStrategy = require("./routes/lib/passport/user-passport");
 
 
 mongoose.connect(process.env.MONGO_DB, {
@@ -28,7 +27,8 @@ const itemsRouter = require('./routes/items/items');
 
 const app = express();
 
-// passport.use("jwt-user", userJWTLoginStrategy);
+app.use(passport.initialize())
+passport.use("jwt-user", userJWTLoginStrategy);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
