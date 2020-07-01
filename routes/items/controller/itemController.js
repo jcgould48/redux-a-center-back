@@ -1,6 +1,7 @@
 
 const dbErrorHelper = require("../../lib/dbErrorHelpers/dbErrorHelper");
 const User = require("../../users/model/User");
+const Item = require("../model/Item");
 
 
 module.exports = {
@@ -15,8 +16,8 @@ module.exports = {
            
           });
           const savedItem = await newItem.save();
-          const foundUser = await User.findById({ _id: req.user._id });
-          foundUser.items.push(savedItem._id);
+        //   const foundUser = await User.findById({ _id: req.user._id });
+        //   foundUser.items.push(savedItem._id);
           res.json(savedItem);
         } catch (e) {
           res.status(500).json({
