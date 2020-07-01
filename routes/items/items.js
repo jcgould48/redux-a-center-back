@@ -7,5 +7,5 @@ router.get('/', function(req, res, next) {
 });
 
 router.post("/create-item", itemController.createItem);
-
+router.get('/all-items', itemController.getAllItems)
 module.exports = router;

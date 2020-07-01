@@ -28,7 +28,8 @@ module.exports = {
 
 getAllItems: async (req, res) => {
     try {
-      let allItems = await Item.find({ item: req.user._id });
+      let allItems = await Item.find({ item: req.user._id })
+      .populate('items')
       res.json(allItems);
     } catch (e) {
       res.status(500).json({
