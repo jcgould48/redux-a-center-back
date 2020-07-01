@@ -16,15 +16,35 @@ async function comparePassword(incomingPassword, userPassword) {
 }
 async function createJwtToken(user) {
   let payload;
+
   payload = {
     email: user.email,
     _id: user._id,
     username: user.username,
   };
+
+  // let jwtToken = jwt.sign(payload, process.env.JWT_USER_SECRET_KEY, {
+  //   expiresIn: "1min",
+  // });
+
   let jwtToken = jwt.sign(payload, process.env.JWT_USER_SECRET_KEY, {
-    expiresIn: "1d",
+    expiresIn: "24h",
   });
-  return jwtToken;
+
+  let jwtRefreshToken = jwt.sign(
+    {
+      _id: user._id,
+    },
+    process.env.JWT_USER_REFRESH_SECRET_KEY,
+    {
+      expiresIn: "7d",
+    }
+  );
+
+  return {
+    jwtToken,
+    jwtRefreshToken,
+  };
 }
 module.exports = {
   comparePassword,
