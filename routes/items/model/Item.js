@@ -19,7 +19,7 @@ const ItemSchema = new mongoose.Schema({
   },
   availability: {
     type: Boolean,
-    required: "Availability is required",
+    // required: "Availability is required",
   },
   createdBy: { type: mongoose.Schema.ObjectId, ref: "User" },
   created: {
