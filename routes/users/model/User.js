@@ -30,6 +30,8 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
-  items: [{ type: mongoose.Schema.ObjectId, ref: "Item" }],
+  itemsCreated: [{ type: mongoose.Schema.ObjectId, ref: "Created" }],
+  itemsRented: [{ type: mongoose.Schema.ObjectId, ref: "Rented" }],
+  itemsWaitListed: [{ type: mongoose.Schema.ObjectId, ref: "Waited" }],
 });
 module.exports = mongoose.model("User", UserSchema);

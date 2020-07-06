@@ -1,12 +1,33 @@
 const express = require('express');
 const router = express.Router();
+var passport = require("passport");
 const itemController = require("./controller/itemController")
+
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post("/create-item", itemController.createItem);
+router.post("/create-item", 
+passport.authenticate("jwt-user", { session: false }),
+itemController.createItem);
 
-router.get('/all-rental-items', itemController.getAllItems)
+router.get('/all-rental-items',
+passport.authenticate("jwt-user", { session: false }),
+itemController.getAllItems)
+
+router.put('/rent-item',
+passport.authenticate("jwt-user", { session: false }),
+itemController.rentItem)
+
+router.put('/wait-list-item',
+passport.authenticate("jwt-user", { session: false }),
+itemController.waitListItem)
+
+router.put('/return-item',
+passport.authenticate("jwt-user", { session: false }),
+itemController.returnItem)
+
+
 module.exports = router;
