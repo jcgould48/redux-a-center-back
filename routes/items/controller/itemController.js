@@ -1,5 +1,6 @@
-
 const dbErrorHelper = require("../../lib/dbErrorHelpers/dbErrorHelper");
+// const Twilio = require("twilio");
+const sgMail = require('@sendgrid/mail');
 const User = require("../../users/model/User");
 const Item = require("../model/Item");
 
@@ -60,11 +61,25 @@ rentItem: async (req, res) => {
   },
 waitListItem: async (req, res) => {
 try {
-    const itemID = req.body._id;
-    const foundUser = await User.findById({ _id: req.user._id });
-        foundUser.itemsWaitListed.push(itemID);
-        await foundUser.save();
-    res.json(updatedItem);
+
+    console.log("Test to work")
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+    const msg = {
+      to: 'jesse.gould@codeimmersives.com',
+      from: 'test@example.com',
+      subject: 'Sending with SendGrid is Fun',
+      text: 'and easy to do anywhere, even with Node.js',
+      html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    };
+    
+    sgMail.send(msg);
+
+    // const itemID = req.body._id;
+    // const foundUser = await User.findById({ _id: req.user._id });
+    //     foundUser.itemsWaitListed.push(itemID);
+    //     await foundUser.save();
+    // // res.json(updatedItem);
     } catch (e) {
     res.status(500).json(dbErrorHelper(e));
     }
@@ -91,5 +106,6 @@ returnItem: async (req, res) => {
         res.status(500).json(dbErrorHelper(e));
       }
   },
+
 
 }

@@ -7,6 +7,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.2.1",
     "bcryptjs": "^2.4.3",
     "chron": "^0.1.1",
     "cookie-parser": "~1.4.4",
