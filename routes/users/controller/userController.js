@@ -42,7 +42,6 @@ module.exports= {
             throw Error("Check your email and password.");
           }
           let jwtTokenObj = await jwtHelper.createJwtToken(foundUser);
-
       res.json({
         message: "success",
         jwtToken: jwtTokenObj.jwtToken,
@@ -54,4 +53,22 @@ module.exports= {
           });
         }
       },
+      updateProfile: (params, id) => {
+        const {username, email} = params;
+        return new Promise((resolve, reject) => {
+          User.findById(id)
+          .then(user => {
+            if(username) user.profile.name = username
+            if(email) user.email = email
+            return user;
+          })
+          .then(user => {
+            user.save().then(user => {
+              resolve(user)
+            })
+          })
+          .catch(err=> reject(err))
+        }).catch(err=> reject(err))
+      }
+      
     }
