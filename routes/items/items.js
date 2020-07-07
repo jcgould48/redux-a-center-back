@@ -29,5 +29,8 @@ router.put('/return-item',
 passport.authenticate("jwt-user", { session: false }),
 itemController.returnItem)
 
+router.get('/all-profile-items',
+passport.authenticate("jwt-user", { session: false }),
+itemController.getAllProfileItems)
 
 module.exports = router;

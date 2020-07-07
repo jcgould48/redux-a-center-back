@@ -107,5 +107,50 @@ returnItem: async (req, res) => {
       }
   },
 
+  getAllProfileItems: async (req, res) => {
+    try {
+        const newArr=[]
+        const itemID = req.body._id;
+        const foundUser = await User.findById({ _id: req.user._id });
+        const rented = foundUser.itemsRented;
+        const created = foundUser.itemsCreated;
+        // console.log("RENTED Array?", rented )
+        // let foundAllRented = await User.findById({ _id: req.user._id  })
+        // .populate("Rented")
+        // .select("-__v -password -userCreated -email -username");
+
+
+    //   console.log(foundAllRented);
+    records = await Item.find().where('_id').in(rented).exec();
+    recordsA = await Item.find().where('_id').in(created).exec();
+      newArr.push(records) 
+      newArr.push(recordsA) 
+      console.log("ARRR",newArr) 
+    //    await rented.forEach(element => {
+    //     console.log("ELEMENT", element)
+    //     let foundNewItem= Item.findById({ _id: element}); 
+    //     newArr.push(foundNewItem)
+    // });
+      
+    //   Item.findById({ _id: rented[0] })
+      console.log("Please",records);
+    //   .populate("expenses")
+    //   res.json(foundAllRented);
+        // await rented.forEach(element => {
+        // let foundItem= Item.findById({ _id: element}); 
+        // console.log("this is it", foundItem)
+        // console.log("this is it", foundItem.obj.itemName)
+    // });
+    // console.log("FOUND_ITEM?", foundItems ) 
+    // res.json(foundItems)
+    //     let allItems = await Item.find({})
+    // //    console.log("%%%%%",allItems)
+    //     res.json(allItems);
+    } catch (e) {
+      res.status(500).json({
+        message: dbErrorHelper(e),
+      });
+    }
+  },
 
 }
