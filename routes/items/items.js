@@ -29,6 +29,14 @@ router.put('/return-item',
 passport.authenticate("jwt-user", { session: false }),
 itemController.returnItem)
 
+router.put('/remove-wait-list',
+passport.authenticate("jwt-user", { session: false }),
+itemController.removeWaitList)
+
+router.delete('/delete-item/:id',
+passport.authenticate("jwt-user", { session: false }),
+itemController.deleteItem)
+
 router.get('/all-profile-items',
 passport.authenticate("jwt-user", { session: false }),
 itemController.getAllProfileItems)

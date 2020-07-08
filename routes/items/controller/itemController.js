@@ -107,6 +107,40 @@ returnItem: async (req, res) => {
       }
   },
 
+removeWaitList: async (req, res) => {
+    try {
+        const foundUser = await User.findById({ _id: req.user._id });
+        // console.log("INDEXXXX",foundUser)
+        const index = await foundUser.itemsWaitListed.indexOf(itemID);
+        console.log("INDEXXXX",index)
+
+        if (index > -1) {
+            foundUser.itemsWaitListed.splice(index, 1);
+          }
+        await foundUser.save();
+        res.json(foundUser);
+      } catch (e) {
+        res.status(500).json(dbErrorHelper(e));
+      }
+  },
+deleteItem: async (req, res) => {
+    try {
+        const itemID = req.params.id;
+        // console.log("ITEMBE", itemID)
+        const foundUser = await User.findById({ _id: req.user._id });
+        const index = foundUser.itemsCreated.indexOf(itemID);
+        // console.log("INDEXXXX",index)
+        if (index > -1) {
+            foundUser.itemsCreated.splice(index, 1);
+        }
+        await foundUser.save();
+        let deletedItem = await Item.findByIdAndDelete({ _id: itemID});
+        res.json(deletedItem);
+      } catch (e) {
+        res.status(500).json(dbErrorHelper(e));
+      }
+  },
+
   getAllProfileItems: async (req, res) => {
     try {
         // const itemID = req.body._id;
