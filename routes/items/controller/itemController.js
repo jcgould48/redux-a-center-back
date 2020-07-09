@@ -79,7 +79,7 @@ try {
     const foundUser = await User.findById({ _id: req.user._id });
         foundUser.itemsWaitListed.push(itemID);
         await foundUser.save();
-    // res.json(updatedItem);
+    res.json(foundUser);
     } catch (e) {
     res.status(500).json(dbErrorHelper(e));
     }
@@ -114,13 +114,13 @@ removeWaitList: async (req, res) => {
         const foundUser = await User.findById({ _id: req.user._id });
         // console.log("INDEXXXX",foundUser)
         const index = foundUser.itemsWaitListed.indexOf(itemID);
-        console.log("INDEXXXX2",index)
+        // console.log("INDEXXXX2",index)
 
         if (index > -1) {
             foundUser.itemsWaitListed.splice(index, 1);
           }
         await foundUser.save();
-        // res.json(foundUser);
+        res.json(foundUser);
       } catch (e) {
         res.status(500).json(dbErrorHelper(e));
       }
@@ -143,21 +143,56 @@ deleteItem: async (req, res) => {
       }
   },
 
-  getAllProfileItems: async (req, res) => {
+getAllCreatedItems: async (req, res) => {
+    try {
+        // const itemID = req.body._id;
+        const foundUser = await User.findById({ _id: req.user._id });
+        const created = foundUser.itemsCreated;
+        // console.log("RENTED Array?", rented )
+    //   console.log(foundAllRented);
+    createdRecords = await Item.find().where('_id').in(created).exec();
+
+      const ownerObj = {
+        created:createdRecords,
+    }
+    res.json(ownerObj);
+     
+    } catch (e) {
+      res.status(500).json({
+        message: dbErrorHelper(e),
+      });
+    }
+  },
+  getAllRentedItems: async (req, res) => {
     try {
         // const itemID = req.body._id;
         const foundUser = await User.findById({ _id: req.user._id });
         const rented = foundUser.itemsRented;
-        const created = foundUser.itemsCreated;
-        const waitListed = foundUser.itemsWaitListed;
+        
         // console.log("RENTED Array?", rented )
     //   console.log(foundAllRented);
     rentRecords = await Item.find().where('_id').in(rented).exec();
-    createdRecords = await Item.find().where('_id').in(created).exec();
-    waitListRecords = await Item.find().where('_id').in(waitListed).exec();
+    
       const ownerObj = {
         rented: rentRecords,
-        created:createdRecords,
+    }
+    res.json(ownerObj);
+     
+    } catch (e) {
+      res.status(500).json({
+        message: dbErrorHelper(e),
+      });
+    }
+  },
+  getAllWaitLisItems: async (req, res) => {
+    try {
+        // const itemID = req.body._id;
+        const foundUser = await User.findById({ _id: req.user._id });
+        const waitListed = foundUser.itemsWaitListed;
+        // console.log("RENTED Array?", rented )
+    //   console.log(foundAllRented);
+    waitListRecords = await Item.find().where('_id').in(waitListed).exec();
+      const ownerObj = {
         waitListed:waitListRecords
     }
     res.json(ownerObj);

@@ -37,8 +37,16 @@ router.delete('/delete-item/:id',
 passport.authenticate("jwt-user", { session: false }),
 itemController.deleteItem)
 
-router.get('/all-profile-items',
+router.get('/all-created-items',
 passport.authenticate("jwt-user", { session: false }),
-itemController.getAllProfileItems)
+itemController.getAllCreatedItems)
+
+router.get('/all-rented-items',
+passport.authenticate("jwt-user", { session: false }),
+itemController.getAllRentedItems)
+
+router.get('/all-wait-list-items',
+passport.authenticate("jwt-user", { session: false }),
+itemController.getAllWaitLisItems)
 
 module.exports = router;
