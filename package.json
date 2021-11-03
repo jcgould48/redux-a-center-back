@@ -27,6 +27,6 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "twilio": "^3.47.0",
-    "validator": "^13.1.1"
+    "validator": "^13.7.0"
   }
 }
